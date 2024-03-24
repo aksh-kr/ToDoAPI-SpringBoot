@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequestMapping("/todos")
 @RestController
 public class ToDoController {
 
@@ -18,25 +19,50 @@ public class ToDoController {
         toDoList.add(new Todo(2, true, "ToDo 2", 2));
     }
 
-    @GetMapping("/todos")
+    @GetMapping()
     public ResponseEntity<List<Todo>> getToDos() {
         return ResponseEntity.ok(toDoList);
     }
 
-    @PostMapping("/todos")
+    @PostMapping()
     public ResponseEntity<Todo> createTodo(@RequestBody Todo newTodo) {
         toDoList.add(newTodo);
         return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
 
-    @GetMapping("/todos/{todoId}")
-    public ResponseEntity getTodoById(@PathVariable Long todoId) {
+    @GetMapping("/{todoId}")
+    public ResponseEntity<?> getTodoById(@PathVariable Long todoId) {
         for (Todo todo : toDoList) {
             if(todo.getId() == todoId) {
                 return ResponseEntity.ok(todo);
             }
         }
-        return new ResponseEntity("Todo Not Found for the given todoId", null, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Todo Not Found for the given todoId", null, HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{todoId}")
+    public ResponseEntity<?> deleteTodoById(@PathVariable Long todoId) {
+        for (Todo todo : toDoList) {
+            if(todo.getId() == todoId) {
+                toDoList.remove(todo);
+                return ResponseEntity.ok("Todo deleted for the given todoId");
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Todo Not Found");
+    }
+
+    @PatchMapping("/{todoId}")
+    public ResponseEntity<Todo> updateTodo(@PathVariable Long todoId, @RequestBody Todo requestTodo) {
+        for (Todo todo : toDoList) {
+            if(todo.getId() == todoId) {
+                todo.setCompleted(requestTodo.isCompleted());
+                todo.setTitle(requestTodo.getTitle());
+                todo.setUserId(requestTodo.getUserId());
+                return ResponseEntity.ok(todo);
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
