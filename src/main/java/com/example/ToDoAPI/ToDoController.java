@@ -29,4 +29,14 @@ public class ToDoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newTodo);
     }
 
+    @GetMapping("/todos/{todoId}")
+    public ResponseEntity getTodoById(@PathVariable Long todoId) {
+        for (Todo todo : toDoList) {
+            if(todo.getId() == todoId) {
+                return ResponseEntity.ok(todo);
+            }
+        }
+        return new ResponseEntity("Todo Not Found for the given todoId", null, HttpStatus.NOT_FOUND);
+    }
+
 }
