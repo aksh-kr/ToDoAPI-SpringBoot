@@ -11,9 +11,11 @@ import java.util.List;
 @RestController
 public class ToDoController {
 
+    private TodoService todoService;
     private static List<Todo> toDoList;
 
-    public ToDoController() {
+    public ToDoController(TodoService todoService) {
+        this.todoService = todoService;
         toDoList = new ArrayList<>();
         toDoList.add(new Todo(1, false, "ToDo 1", 1));
         toDoList.add(new Todo(2, true, "ToDo 2", 2));
@@ -21,7 +23,7 @@ public class ToDoController {
 
     @GetMapping()
     public ResponseEntity<List<Todo>> getToDos(@RequestParam(required = false) Boolean isCompleted) {
-        System.out.println("Incoming query param is : " + isCompleted);
+        System.out.println("Incoming query param is : " + isCompleted + " " + this.todoService.doSomething());
         return ResponseEntity.ok(toDoList);
     }
 
