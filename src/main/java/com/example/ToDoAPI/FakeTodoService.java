@@ -3,7 +3,7 @@ package com.example.ToDoAPI;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("fakeTodoService")
 public class FakeTodoService implements TodoService{
 
     @Override
