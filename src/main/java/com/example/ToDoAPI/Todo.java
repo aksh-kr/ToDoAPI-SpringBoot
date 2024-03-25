@@ -24,7 +24,7 @@ public class Todo {
 		this.completed = completed;
 	}
 
-	public boolean isCompleted(){
+	public Boolean isCompleted(){
 		return completed;
 	}
 
@@ -40,7 +40,7 @@ public class Todo {
 		this.userId = userId;
 	}
 
-	public int getUserId(){
+	public Integer getUserId(){
 		return userId;
 	}
 

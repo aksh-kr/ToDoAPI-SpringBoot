@@ -56,9 +56,18 @@ public class ToDoController {
     public ResponseEntity<Todo> updateTodo(@PathVariable Long todoId, @RequestBody Todo requestTodo) {
         for (Todo todo : toDoList) {
             if(todo.getId() == todoId) {
-                todo.setCompleted(requestTodo.isCompleted());
-                todo.setTitle(requestTodo.getTitle());
-                todo.setUserId(requestTodo.getUserId());
+                if(requestTodo.isCompleted() !=  null) {
+                    todo.setCompleted(requestTodo.isCompleted());
+
+                }
+                if(requestTodo.getTitle() !=  null) {
+                    todo.setTitle(requestTodo.getTitle());
+
+                }
+                if(requestTodo.getUserId() !=  null) {
+                    todo.setUserId(requestTodo.getUserId());
+
+                }
                 return ResponseEntity.ok(todo);
             }
         }
