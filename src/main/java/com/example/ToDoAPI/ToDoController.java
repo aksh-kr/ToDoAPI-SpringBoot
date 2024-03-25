@@ -20,7 +20,8 @@ public class ToDoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Todo>> getToDos() {
+    public ResponseEntity<List<Todo>> getToDos(@RequestParam(required = false) Boolean isCompleted) {
+        System.out.println("Incoming query param is : " + isCompleted);
         return ResponseEntity.ok(toDoList);
     }
 
